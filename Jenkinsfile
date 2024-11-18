@@ -38,9 +38,6 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                script {
-                    input message: "Do you want to deploy?", ok: "Deploy Now"
-                }
                 echo 'Building and deploying Docker container...'
                 sh 'docker build -t ${APP_NAME}:latest .'
                 sh 'docker rm -f "${APP_NAME}_container" || echo "No existing container to remove."'
