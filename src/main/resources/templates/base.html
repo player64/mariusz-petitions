@@ -2,23 +2,37 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="en-GB">
 <head>
     <title th:text="${pageTitle}">Base Template</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
 <header>
-    <nav>
-        <ul>
-            <li><a href="/">All petitions</a></li>
-            <li><a href="/petition/new">New Petition</a></li>
-        </ul>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="/">Mariusz's Petitions</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">All petitions</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-success" href="/petition/new">New Petition</a>
+                    </li>
+                </ul>
+                <form th:action="@{/search}" method="get" class="d-flex">
+                    <input class="form-control me-2" type="search"  name="query" th:value="${query}"
+                           placeholder="Search for petition" aria-label="Search for petition">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
     </nav>
-
-    <h1>Search petitions</h1>
-    <form th:action="@{/search}" method="get">
-        <input type="text" name="query" th:value="${query}" placeholder="Search for petitions" />
-        <button type="submit">Search</button>
-    </form>
 </header>
-<main layout:fragment="content">
+<main  class="container mt-5 mb-3" layout:fragment="content">
     <!-- Placeholder for child content -->
 </main>
 </body>

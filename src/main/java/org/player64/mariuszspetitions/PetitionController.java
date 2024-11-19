@@ -35,6 +35,7 @@ public class PetitionController {
     public String petition(@PathVariable Long id, Model model) {
         Optional<Petition> petition = petitionService.getPetitionById(id);
         if (petition.isPresent()) {
+            model.addAttribute("pageTitle", petition.get().getTitle());
             model.addAttribute("petition", petition.get());
             return "petition";
         }
@@ -44,6 +45,7 @@ public class PetitionController {
     @GetMapping("/search")
     public String search(@RequestParam(name = "query", required = false) String query, Model model) {
         List<Petition> petitions = petitionService.getPetitionByTitle(query);
+        model.addAttribute("pageTitle", "Search Results");
         model.addAttribute("petitions", petitions);
         model.addAttribute("query",  query);
         return "index";
@@ -51,6 +53,7 @@ public class PetitionController {
 
     @GetMapping("/petition/new")
     public String newPetition(Model model) {
+        model.addAttribute("pageTitle", "New Petition");
         model.addAttribute("petition", new Petition());
         return "new";
     }
@@ -80,7 +83,7 @@ public class PetitionController {
         boolean success = petitionService.signPetition(id, user);
 
         if (!success) {
-            redirectAttributes.addFlashAttribute("errorMessage", "You have already signed this petition or it was not found.");
+            redirectAttributes.addFlashAttribute("errorMessage", "You have already signed this petition.");
             return "redirect:/petition/" + id;
         }
 
