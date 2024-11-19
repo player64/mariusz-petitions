@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="en-GB"
+      layout:decorate="~{base}">
+<body>
+<main layout:fragment="content">
+
+  <h1>Create a New Petition</h1>
+
+  <!-- Flash Messages for Success/Error -->
+  <div th:if="${errorMessage}" class="alert alert-danger">
+    <p th:text="${errorMessage}"></p>
+  </div>
+  <div th:if="${successMessage}" class="alert alert-success">
+    <p th:text="${successMessage}"></p>
+  </div>
+
+  <!-- Petition Creation Form -->
+  <form th:action="@{/petition/new}" th:object="${petition}" method="post">
+    <!-- Petition Title -->
+    <div>
+      <label for="title">Petition Title:</label>
+      <input type="text" id="title" name="title" th:field="*{title}" placeholder="Enter title here" required />
+      <div th:if="${#fields.hasErrors('title')}" class="error-message">
+        <p th:errors="*{title}">Title Error</p>
+      </div>
+    </div>
+
+    <!-- Creator Name -->
+    <div>
+      <label for="creatorName">Your Name:</label>
+      <input type="text" id="creatorName" name="createdBy.name" th:field="*{createdBy.name}" placeholder="Your Name" required />
+      <div th:if="${#fields.hasErrors('createdBy.name')}" class="error-message">
+        <p th:errors="*{createdBy.name}">Name Error</p>
+      </div>
+    </div>
+
+    <!-- Creator Email -->
+    <div>
+      <label for="creatorEmail">Your Email:</label>
+      <input type="email" id="creatorEmail" name="createdBy.email" th:field="*{createdBy.email}" placeholder="Your Email" required />
+      <div th:if="${#fields.hasErrors('createdBy.email')}" class="error-message">
+        <p th:errors="*{createdBy.email}">Email Error</p>
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit">Create Petition</button>
+  </form>
+</main>
+</body>
+</html>

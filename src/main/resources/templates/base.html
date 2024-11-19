@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="en-GB">
+<head>
+    <title th:text="${pageTitle}">Base Template</title>
+</head>
+<body>
+<header>
+    <nav>
+        <ul>
+            <li><a href="/">All petitions</a></li>
+            <li><a href="/petition/new">New Petition</a></li>
+        </ul>
+    </nav>
+
+    <h1>Search petitions</h1>
+    <form th:action="@{/search}" method="get">
+        <input type="text" name="query" th:value="${query}" placeholder="Search for petitions" />
+        <button type="submit">Search</button>
+    </form>
+</header>
+<main layout:fragment="content">
+    <!-- Placeholder for child content -->
+</main>
+</body>
+</html>

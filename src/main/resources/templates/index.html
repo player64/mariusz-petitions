@@ -1,11 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Mariusz Petitions</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="en-GB"
+      layout:decorate="~{base}">
 <body>
-<h1>Hello Mariusz Petitions app!</h1>
-<p>It  should be working now</p>
+<main layout:fragment="content">
+    <div th:if="${successMessage}" class="alert alert-success">
+        <p th:text="${successMessage}"></p>
+    </div>
+    <div th:if="${#lists.isEmpty(petitions)}">
+        <p>No petitions found. Please check back later or create a new petition.</p>
+    </div>
+    <div th:if="${!#lists.isEmpty(petitions)}">
+        <h1>Active Petitions</h1>
+        <ol>
+            <li th:each="petition : ${petitions}">
+                <a th:href="@{/petition/{id}(id=${petition.getId()})}" th:text="${petition.title}">Petition Title</a>
+            </li>
+        </ol>
+    </div>
+</main>
 </body>
 </html>
