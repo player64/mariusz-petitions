@@ -27,8 +27,12 @@ public class PetitionService {
         return petitionRepository.searchByTitle(title);
     }
 
-    public void createPetition(Petition petition) {
+    public boolean createPetition(Petition petition) {
+        if(petitionRepository.existsByExactTitle(petition.getTitle())) {
+            return false;
+        }
         petitionRepository.saveOrUpdate(petition);
+        return true;
     }
 
     public boolean signPetition(Long petitionId, User user) {

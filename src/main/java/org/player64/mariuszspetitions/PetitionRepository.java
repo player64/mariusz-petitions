@@ -49,6 +49,10 @@ public class PetitionRepository {
         return petition;
     }
 
+    public boolean existsByExactTitle(String title) {
+        return petitions.stream().anyMatch(p -> p.getTitle().equalsIgnoreCase(title));
+    }
+
     public void deleteById(Long id) {
         petitions.removeIf(p -> p.getId().equals(id));
     }
@@ -57,7 +61,8 @@ public class PetitionRepository {
         return petitions.stream().filter(p -> p.getId().equals(id)).findFirst();
     }
 
-    public List<Petition> searchByTitle(String name) {
+    public List<Petition>
+    searchByTitle(String name) {
         return petitions.stream()
                 .filter(p -> p.getTitle() != null && p.getTitle().toLowerCase().contains(name.toLowerCase()))
                 .toList();

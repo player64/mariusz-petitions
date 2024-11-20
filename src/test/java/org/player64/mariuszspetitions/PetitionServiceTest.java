@@ -53,8 +53,16 @@ class PetitionServiceTest {
     @Test
     void createPetitionSavesPetition() {
         Petition petition = new Petition("Title", new User("User", "user@example.com"));
-        petitionService.createPetition(petition);
+        assertTrue(petitionService.createPetition(petition));
         verify(petitionRepository, times(1)).saveOrUpdate(petition);
+    }
+
+    @Test
+    void createPetitionWithTheSameTitleShouldFail() {
+        when(petitionRepository.existsByExactTitle("sample title")).thenReturn(true);
+        Petition petition = new Petition("sample title", new User("User", "user@example.com"));
+        boolean result = petitionService.createPetition(petition);
+        assertFalse(result);
     }
 
     @Test

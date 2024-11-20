@@ -115,6 +115,15 @@ public class PetitionRepositoryTest {
     }
 
     @Test
+    void existsByTitleReturnsWhenTitleProvidedInVariousOptions() {
+        Petition petition = new Petition("New Petition", new User("Alice", "alice@example.com"));
+        repository.saveOrUpdate(petition);
+        assertFalse(repository.existsByExactTitle("new"));
+        assertFalse(repository.existsByExactTitle("Petition"));
+        assertTrue(repository.existsByExactTitle("new petition"));
+    }
+
+    @Test
     void searchByTitleReturnsAllMatchesWhenMultipleTitlesStartWithSameString() {
         Petition petition1 = new Petition("Title1", new User("User1", "user1@example.com"));
         Petition petition2 = new Petition("Title2", new User("User2", "user2@example.com"));

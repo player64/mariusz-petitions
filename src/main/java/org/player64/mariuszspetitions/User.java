@@ -2,6 +2,7 @@ package org.player64.mariuszspetitions;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,7 @@ import lombok.Setter;
 public class User {
 
     @NotEmpty(message = "Name must not be empty")
+    @Pattern(regexp = ".*\\S.*", message = "User name must not be only whitespace")
     private String name;
 
     @NotEmpty(message = "Email must not be empty")

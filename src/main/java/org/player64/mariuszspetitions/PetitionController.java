@@ -57,15 +57,24 @@ public class PetitionController {
 
     @PostMapping("/petition/new")
     public String createPetition(@Valid @ModelAttribute Petition petition, BindingResult result, RedirectAttributes redirectAttributes) {
+        // Check for validation errors
         if (result.hasErrors()) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Please correct the errors and try again.");
+            // Add an error message and redirect back to the form
+            redirectAttributes.addFlashAttribute("errorMessage", "The request contains invalid data.");
             return "redirect:/petition/new";
         }
 
         // Set the current date for createdAt before saving
         petition.setCreatedAt(java.time.LocalDate.now().toString());
 
-        petitionService.createPetition(petition);
+        // Check for duplicate title
+        boolean success = petitionService.createPetition(petition);
+        if (!success) {
+            redirectAttributes.addFlashAttribute("errorMessage", "The petition with the given title already exists.");
+            return "redirect:/petition/new";
+        }
+
+        // Success message and redirect to home
         redirectAttributes.addFlashAttribute("successMessage", "Petition created successfully!");
         return "redirect:/";
     }

@@ -96,7 +96,15 @@ class PetitionTest {
         Set<ConstraintViolation<Petition>> violations = validator.validate(petition);
 
         // Expect one violation for the empty title
-        assertEquals(1, violations.size());
+        assertEquals(2, violations.size());
+        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("title")));
+    }
+
+    @Test
+    void  whenTitleIsWhitespaceOnlyThenViolationOccurs() {
+        User creator = new User("John Doe", "john.doe@example.com");
+        Petition petition = new Petition("           ", creator);
+        Set<ConstraintViolation<Petition>> violations = validator.validate(petition);
         assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("title")));
     }
 

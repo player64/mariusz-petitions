@@ -37,11 +37,7 @@ class UserTest {
     void setNameUpdatesName() {
         User user = new User();
         user.setName("Jane Doe");
-
-        // We validate the object after setting the name
         Set<ConstraintViolation<User>> violations = validator.validate(user);
-
-        // Since only the name is set, expect a violation on the email field
         assertEquals(1, violations.size());
         assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("email")));
     }
@@ -55,6 +51,17 @@ class UserTest {
         Set<ConstraintViolation<User>> violations = validator.validate(user);
 
         // Expect one violation for the missing name field
+        assertEquals(1, violations.size());
+        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("name")));
+    }
+
+    @Test
+    void whiteSpacesAsUserNameShouldFailValidation() {
+        User user = new User();
+        user.setName("   ");
+        user.setEmail("valid@example.com");
+
+        Set<ConstraintViolation<User>> violations = validator.validate(user);
         assertEquals(1, violations.size());
         assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("name")));
     }
