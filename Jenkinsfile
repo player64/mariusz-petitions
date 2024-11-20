@@ -32,12 +32,22 @@ pipeline {
             steps {
                 echo 'Packaging as WAR...'
                 sh "./mvnw package -DskipTests"
-                archiveArtifacts artifacts: "target/${WAR_FILE}", allowEmptyArchive: false
+            }
+        }
+
+        stage('Archive') {
+            steps {
+                echo 'Archiving ...'
+                archiveArtifacts allowEmptyArchive: true,
+                artifacts: "target/${WAR_FILE}"
             }
         }
 
         stage('Deploy') {
             steps {
+                timeout(time: 15, unit: "MINUTES") {
+                    input message: 'Do you want to approve the deployment?', ok: 'Deploy Now'
+                }
                 echo 'Building and deploying Docker container...'
                 sh 'docker build -t ${APP_NAME}:latest .'
                 sh 'docker rm -f "${APP_NAME}_container" || echo "No existing container to remove."'
