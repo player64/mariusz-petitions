@@ -3,38 +3,49 @@
       layout:decorate="~{base}">
 <body>
 <main layout:fragment="content">
-    <h1 th:text="${petition.title}">Petition Title</h1>
-    <p th:text="${petition.createdAt} + '-' + ${petition.createdBy.name} + ' - ' + ${petition.createdBy.email}">Creator Info</p>
+    <div class="mb-5">
+        <h1 th:text="${petition.title}">Petition Title</h1>
+        <div class="row justify-content-between bg-secondary text-white p-3">
+            <h6 class="mb-0 col-auto"
+                th:text="'Created by: ' + ${petition.createdBy.name} + ' - ' + ${petition.createdBy.email}"></h6>
+            <h6 class="mb-0 col-auto" th:text="'Created at: ' + ${petition.createdAt}"></h6>
+        </div>
+    </div>
+
+    <div class="alert alert-warning" th:if="${#lists.isEmpty(petition.signUsers)}">
+        No one has signed this petition yet. Be the first one!
+    </div>
 
     <div th:if="${!#lists.isEmpty(petition.signUsers)}">
-        <h3>Signed by:</h3>
-        <ul>
-            <li th:each="user : ${petition.signUsers}">
-                <span th:text="${user.name}">User Name</span> - <span th:text="${user.email}">User Email</span>
+        <h3>Signed by</h3>
+        <ul class="list-group">
+            <li  class="list-group-item" th:each="user : ${petition.signUsers}">
+                <span th:text="${user.name}"></span> <span th:text="${user.email}">User Email</span>
             </li>
         </ul>
     </div>
 
-    <h3>Sign this Petition</h3>
-    <!-- Flash Messages -->
-    <div th:if="${errorMessage}" class="alert alert-danger">
-        <p th:text="${errorMessage}"></p>
-    </div>
-    <div th:if="${successMessage}" class="alert alert-success">
-        <p th:text="${successMessage}"></p>
-    </div>
-    <form th:action="@{/petition/sign/{id}(id=${petition.id})}" method="post">
-        <div>
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" th:value="${user?.name}" placeholder="Your Name" required />
+    <div class="mt-5">
+        <h3>Sign this Petition</h3>
+        <!-- Flash Messages -->
+        <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}">
         </div>
-        <div>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" th:value="${user?.email}" placeholder="Your Email" required />
+        <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}">
         </div>
-        <button type="submit">Sign Petition</button>
-    </form>
-
+        <form th:action="@{/petition/sign/{id}(id=${petition.id})}" method="post">
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control form-control-lg" id="name" name="name" th:value="${user?.name}"
+                       placeholder="e.g. John Smith">
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email address</label>
+                <input type="email" class="form-control form-control-lg" id="email" name="email" th:value="${user?.email}"
+                       placeholder="e.g. john@example.com">
+            </div>
+            <button type="submit" class="btn btn-success">Sign Petition</button>
+        </form>
+    </div>
 </main>
 </body>
 </html>
