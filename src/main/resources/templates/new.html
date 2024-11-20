@@ -6,32 +6,30 @@
 
   <h1>Create a New Petition</h1>
 
-  <!-- Flash Messages for Success/Error -->
+  <!-- Flash Messages for Error -->
   <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}">
   </div>
 
   <!-- Petition Creation Form -->
   <form th:action="@{/petition/new}" th:object="${petition}" method="post">
-    <!-- Petition Title -->
     <div class="mb-3">
       <label class="form-label" for="title">Petition Title</label>
       <input class="form-control form-control-lg"  type="text" id="title" name="title"
-             th:field="*{title}" placeholder="Enter title here" />
+             th:field="*{title}" placeholder="e.g. Safe the rain forest" />
     </div>
 
-    <!-- Creator Name -->
-    <div class="mb-3">
-      <label class="form-label" for="creatorName">Your Name</label>
-      <input class="form-control form-control-lg"  type="text" id="creatorName" name="createdBy.name"
-             th:field="*{createdBy.name}"
-             placeholder="Your Name" />
-    </div>
-
-    <!-- Creator Email -->
-    <div class="mb-3">
-      <label class="form-label" for="creatorEmail">Your Email</label>
-      <input class="form-control form-control-lg"  type="email" id="creatorEmail" name="createdBy.email"
-             th:field="*{createdBy.email}" placeholder="Your Email" />
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="form-label" for="creatorName">Name</label>
+        <input class="form-control form-control-lg"  type="text" id="creatorName" name="createdBy.name"
+               th:field="*{createdBy.name}"
+               placeholder="e.g. John Smith" />
+      </div>
+      <div class="col-md-6">
+        <label class="form-label" for="creatorEmail">Email address</label>
+        <input class="form-control form-control-lg"  type="email" id="creatorEmail" name="createdBy.email"
+               th:field="*{createdBy.email}" placeholder="e.g. john@example.com" />
+      </div>
     </div>
 
     <!-- Submit Button -->
